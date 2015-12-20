@@ -167,7 +167,7 @@ function dotProduct(a: Vector, b: Vector): number {
 
 
 function normalizeVector(a: Vector): Vector {
-    var mag = Math.sqrt(dotProduct(a, a));
+    const mag = Math.sqrt(dotProduct(a, a));
     return {
         x: a.x / mag,
         y: a.y / mag,
@@ -194,17 +194,14 @@ function createIntervalStream(interval: number): rx.Observable<number> {
 // into the horizontal plane and the angle between the projected vector
 // and horizontal north is returned.
 function computeHeading(accVector: Vector, magVector: Vector): number {
-    var from: Vector = { x: 1, y: 0, z: 0 },
-        east: Vector,
-        north: Vector,
-        heading: number;
+    const from = { x: 1, y: 0, z: 0 };
 
     // compute east and north vectors
-    east = normalizeVector(crossProduct(magVector, accVector));
-    north = normalizeVector(crossProduct(accVector, east));
+    const east = normalizeVector(crossProduct(magVector, accVector));
+    const north = normalizeVector(crossProduct(accVector, east));
 
     // compute heading
-    heading = Math.atan2(dotProduct(east, from), dotProduct(north, from)) * 180 / 3.14159265;
+    let heading = Math.atan2(dotProduct(east, from), dotProduct(north, from)) * 180 / 3.14159265;
     if (heading < 0) {
         heading += 360;
     }
@@ -257,7 +254,7 @@ function magnometerToGauss(a: Vector): Vector {
 
 
 function streamMagnometer(readBytes: BytesReader, interval: number, rawData: boolean): rx.Observable<Vector> {
-    var magnometerStream = createIntervalStream(interval)
+    let magnometerStream = createIntervalStream(interval)
         .flatMap(function () {
             return readMagnometer(readBytes);
         });
