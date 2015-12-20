@@ -4,7 +4,7 @@
   "description": "Reactive stream for the LSM303 I2C 3D compass and accelerometer module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "tsc"
   },
   "author": {
     "name": "Jason Heard",
@@ -17,12 +17,13 @@
     }
   ],
   "devDependencies": {
-    "i2c-bus": "~0.11.3",
-    "printf": "~0.2.3"
+    "i2c-bus": "^1.0",
+    "printf": "^0.2",
+    "typescript": "^1.7"
   },
   "dependencies": {
-    "debug": "~2.2.0",
-    "rx": "~4.0.0"
+    "debug": "^2.2",
+    "rx": "^4.0"
   },
   "directories": {
     "example": "examples"
