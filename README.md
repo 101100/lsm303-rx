@@ -85,6 +85,14 @@ code before constructing the Lsm303Driver object.  See the debug library
 documentation for more information.
 
 
+## TypeScript
+
+This project is written in [TypeScript](http://www.typescriptlang.org/).  The
+library can be used by plain JavaScript as shown above, and the typing
+information is also included with the library so that anyone wishing to use
+Typescript will gain the benefits of the type information.
+
+
 ## Acknowledgements
 
 This module was based on
