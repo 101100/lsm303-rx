@@ -54,6 +54,7 @@ and pass it in to the module.
 - `magMax`: Expected maximum values for the compass module.  This
   is used with `magMin` to calculate an offset (by averaging the
   values).  This will be ignored if `magOffset` is given.
+- `debug`: If truthy, debugging to the console will be enabled.
 
 
 ## Available streams
@@ -74,6 +75,14 @@ and pass it in to the module.
     sensor stream.  The default value is 100 ms.
   - `rawData`: (*optional*) if truthy, then the raw magnometer data is returned
     instead of the values in Gauss.  The default value is `false`.
+
+
+## Debugging
+
+This project uses the [`debug`](https://npmjs.org/package/debug) library for
+debugging.  This allows you to enable debugging using environment variables or in
+code before constructing the Lsm303Driver object.  See the debug library
+documentation for more information.
 
 
 ## Acknowledgements

@@ -270,11 +270,15 @@ export interface Lsm303Options {
     magOffset?: Vector,
     magMin?: Vector,
     magMax?: Vector
+    debug?: boolean
 }
 
 
 export class Lsm303Driver {
     constructor(options: Lsm303Options) {
+        if (options.debug) {
+            debugFactory.enable("lsm303");
+        }
         this.debug = debugFactory("lsm303");
 
         const i2cObject = options.i2c,

@@ -22,7 +22,7 @@ import printf from "printf";
 import { Lsm303Driver, Vector } from "../";
 
 // uncomment for debugging information
-//debug.enable('lsm303-rx');
+//debug.enable('lsm303');
 
 const lsm303 = new Lsm303Driver({
     // looking at the source code, the synchronous and
