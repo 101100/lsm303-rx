@@ -192,15 +192,13 @@ function createIntervalStream(interval: number): rx.Observable<number> {
 // form a basis for the horizontal plane. The From vector is projected
 // into the horizontal plane and the angle between the projected vector
 // and horizontal north is returned.
-function computeHeading(debug: debugFactory.Debugger, accVector: Vector, magVector: Vector): number {
-    const from = { x: 1, y: 0, z: 0 };
-
+function computeHeading(debug: debugFactory.Debugger, accVector: Vector, magVector: Vector, forwardVector: Vector): number {
     // compute east and north vectors
     const east = normalizeVector(crossProduct(magVector, accVector));
     const north = normalizeVector(crossProduct(accVector, east));
 
     // compute heading
-    let heading = Math.atan2(dotProduct(east, from), dotProduct(north, from)) * 180 / 3.14159265;
+    let heading = Math.atan2(dotProduct(east, forwardVector), dotProduct(north, forwardVector)) * 180 / 3.14159265;
     if (heading < 0) {
         heading += 360;
     }
@@ -209,11 +207,11 @@ function computeHeading(debug: debugFactory.Debugger, accVector: Vector, magVect
 }
 
 
-function streamHeadings(debug: debugFactory.Debugger, readBytes: BytesReader, interval: number, magOffset: Vector): rx.Observable<number> {
+function streamHeadings(debug: debugFactory.Debugger, readBytes: BytesReader, interval: number, magOffset: Vector, forwardVector: Vector): rx.Observable<number> {
     return createIntervalStream(interval)
         .flatMap(function () {
             return rx.Observable.zip(readAccelerometer(debug, readBytes), readMagnometer(debug, readBytes), function (accVector, magVector) {
-                return computeHeading(debug, accVector, subtractVector(magVector, magOffset));
+                return computeHeading(debug, accVector, subtractVector(magVector, magOffset), forwardVector);
             });
         });
 }
@@ -323,10 +321,10 @@ export class Lsm303Driver {
     }
 
 
-    streamHeadings(interval: number = 100): rx.Observable<number> {
+    streamHeadings(interval: number = 100, forwardVector: Vector = { x: 0, y: 1, z: 0 }): rx.Observable<number> {
         return rx.Observable.concat<number>(
             this.initializationStream,
-            streamHeadings(this.debug, this.readBytes, interval, this.magOffset)
+            streamHeadings(this.debug, this.readBytes, interval, this.magOffset, forwardVector)
         );
     };
 

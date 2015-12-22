@@ -6,7 +6,7 @@ This is an npm module that creates [Rx.JS](https://github.com/Reactive-Extension
 streams of readings from the LSM303 I2C 3D compass and accelerometer module.
 Information on the LSM303DLHC can be found
 [here](http://www.st.com/web/catalog/sense_power/FM89/SC1449/PF251940)
-and it is available for purcahse at
+and it is available for purchase at
 [Adafruit](http://www.adafruit.com/products/1120).
 
 
@@ -58,16 +58,23 @@ and pass it in to the module.
 
 ## Available streams
 
-- `streamHeadings(interval)`: Produces a stream of headings in degrees from North.
-  This uses the compass and magnometer to allow it to compensate for tilting.
-  This also assumes that the heading is defined by the positive Y axis.
+- `streamHeadings(interval, forwardVector)`: Produces a stream of headings in
+  degrees from North.  This uses the compass and accelerometer to allow it to
+  compensate for tilting.
+  - `interval`: (*optional*) the polling interval in milliseconds for the
+    sensor stream.  The default value is 100 ms.
+  - `forwardVector` (*optional*) the normalized vector that represents "forward" on the
+    module.  The default is the value for the Adafruit breakout board, which is
+    `{ x: 1, y: 0, z: 0 }`.
 - `streamAccelerometer(interval)`: Produces a stream of 3D accelerometer data.
+  - `interval`: (*optional*) the polling interval in milliseconds for the
+    sensor stream.  The default value is 100 ms.
 - `streamMagnometer(interval, rawData)`: Produces a stream of 3D magnometer data.
-  The raw values from the sensor are returned if `rawData` is truthy.
+  - `interval`: (*optional*) the polling interval in milliseconds for the
+    sensor stream.  The default value is 100 ms.
+  - `rawData`: (*optional*) if truthy, then the raw magnometer data is returned
+    instead of the values in Gauss.  The default value is `false`.
 
-For each of these functions, `interval` can be optionally given to determine
-polling interval for the sensor stream.  The interval is in milliseconds and
-defaults to 100 ms.
 
 ## Acknowledgements
 
