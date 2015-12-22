@@ -16,9 +16,10 @@
 import * as i2cBus from "i2c-bus";
 import * as debug from "debug";
 
+import { Lsm303Driver, Vector } from "../";
+
 // uncomment for debugging information
 //debug.enable('lsm303-rx');
-import { Lsm303Driver, Vector } from "../";
 
 const lsm303 = new Lsm303Driver({
     // looking at the source code, the synchronous and
