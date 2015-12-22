@@ -81,8 +81,9 @@ and pass it in to the module.
 
 This project uses the [`debug`](https://npmjs.org/package/debug) library for
 debugging.  This allows you to enable debugging using environment variables or in
-code before constructing the Lsm303Driver object.  See the debug library
-documentation for more information.
+code before constructing the Lsm303Driver object.  The name of the debugging
+stream produced by the library is `lsm303`.See the debug library documentation
+for more information.
 
 
 ## TypeScript
