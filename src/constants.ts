@@ -1,10 +1,10 @@
 /*jslint node:true*/
 
 /*
- * constants.ts
+ * src/constants.ts
  * https://github.com/101100/lsm303-rx
  *
- * Constants for LSM303DLHC I2C 3D compass and accelerometer module
+ * Constants for LSM303DLHC I2C 3D compass and accelerometer module.
  *
  * Copyright (c) 2015 Jason Heard
  * Licensed under the MIT license.
