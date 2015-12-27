@@ -6,7 +6,7 @@ This is an npm module that creates [Rx.JS](https://github.com/Reactive-Extension
 streams of readings from the LSM303 I2C 3D compass and accelerometer module.
 Information on the LSM303DLHC can be found
 [here](http://www.st.com/web/catalog/sense_power/FM89/SC1449/PF251940)
-and it is available for purcahse at
+and it is available for purchase at
 [Adafruit](http://www.adafruit.com/products/1120).
 
 
@@ -54,20 +54,45 @@ and pass it in to the module.
 - `magMax`: Expected maximum values for the compass module.  This
   is used with `magMin` to calculate an offset (by averaging the
   values).  This will be ignored if `magOffset` is given.
+- `debug`: If truthy, debugging to the console will be enabled.
 
 
 ## Available streams
 
-- `streamHeadings(interval)`: Produces a stream of headings in degrees from North.
-  This uses the compass and magnometer to allow it to compensate for tilting.
-  This also assumes that the heading is defined by the positive Y axis.
+- `streamHeadings(interval, forwardVector)`: Produces a stream of headings in
+  degrees from North.  This uses the compass and accelerometer to allow it to
+  compensate for tilting.
+  - `interval`: (*optional*) the polling interval in milliseconds for the
+    sensor stream.  The default value is 100 ms.
+  - `forwardVector` (*optional*) the normalized vector that represents "forward" on the
+    module.  The default is the value for the Adafruit breakout board, which is
+    `{ x: 1, y: 0, z: 0 }`.
 - `streamAccelerometer(interval)`: Produces a stream of 3D accelerometer data.
+  - `interval`: (*optional*) the polling interval in milliseconds for the
+    sensor stream.  The default value is 100 ms.
 - `streamMagnometer(interval, rawData)`: Produces a stream of 3D magnometer data.
-  The raw values from the sensor are returned if `rawData` is truthy.
+  - `interval`: (*optional*) the polling interval in milliseconds for the
+    sensor stream.  The default value is 100 ms.
+  - `rawData`: (*optional*) if truthy, then the raw magnometer data is returned
+    instead of the values in Gauss.  The default value is `false`.
 
-For each of these functions, `interval` can be optionally given to determine
-polling interval for the sensor stream.  The interval is in milliseconds and
-defaults to 100 ms.
+
+## Debugging
+
+This project uses the [`debug`](https://npmjs.org/package/debug) library for
+debugging.  This allows you to enable debugging using environment variables or in
+code before constructing the `Lsm303Driver` object.  The name of the debugging
+stream produced by the library is `lsm303`.See the debug library documentation
+for more information.
+
+
+## TypeScript
+
+This project is written in [TypeScript](http://www.typescriptlang.org/).  The
+library can be used by plain JavaScript as shown above, and the typing
+information is also included with the library so that anyone wishing to use
+Typescript will gain the benefits of the type information.
+
 
 ## Acknowledgements
 

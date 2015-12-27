@@ -1,7 +1,8 @@
 /*jslint node:true */
+/// <reference path = "../typings/tsd.d.ts" />
 
 /*
- * examples/calibrate.js
+ * examples/calibrate.ts
  * https://github.com/101100/lsm303-rx
  *
  * Example that can be used to determine the minimum and
@@ -14,19 +15,19 @@
 
 "use strict";
 
-var debug = require('debug');
-var i2c = require('i2c-bus');
-var printf = require('printf');
+import * as i2cBus from "i2c-bus";
+import * as debug from "debug";
+import printf from "printf";
+
+import { Lsm303Driver, Vector } from "../";
 
 // uncomment for debugging information
-//debug.enable('lsm303-rx');
-var Lsm303Driver = require('../');
+//debug.enable('lsm303');
 
-
-var lsm303 = new Lsm303Driver({
+const lsm303 = new Lsm303Driver({
     // looking at the source code, the synchronous and
     // asynchronous open functions are identical
-    i2c: i2c.openSync(1),
+    i2c: i2cBus.openSync(1),
     magOffset: { x: 0, y: 0, z: 0 }
 });
 
@@ -38,7 +39,7 @@ var runningMax = { x: -32768, y: -32768, z: -32768 };
 console.log('Spin around the compass to calibrate (CTRL-C to stop)');
 lsm303.streamMagnometer(100, true)
     .subscribe(
-        function (next) {
+        function (next: Vector): void {
             runningMin.x = Math.min(runningMin.x, next.x);
             runningMin.y = Math.min(runningMin.y, next.y);
             runningMin.z = Math.min(runningMin.z, next.z);
@@ -52,10 +53,10 @@ lsm303.streamMagnometer(100, true)
                 runningMin.x, runningMin.y, runningMin.z,
                 runningMax.x, runningMax.y, runningMax.z));
         },
-        function (err) {
+        function (err: any): void {
             console.log('Error: ' + err);
         },
-        function () {
+        function (): void {
             console.log('Completed');
         }
     );
