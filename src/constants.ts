@@ -60,7 +60,7 @@ export default {
 
     MAG_TEMP_OUT: {
         HIGH: 0x31,
-        LOW: 0x32,
+        LOW: 0x32
     },
 
     ACC_TO_GRAVITY: 0.001,
