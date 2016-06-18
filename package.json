@@ -28,7 +28,7 @@
     "url": "https://github.com/101100/lsm303-rx/issues"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run lint && tsc",
     "lint": "tslint index.ts src/*.ts examples/*.ts",
     "prepublish": "typings install && npm run build"
   },
@@ -38,6 +38,7 @@
   "devDependencies": {
     "i2c-bus": "^1.0",
     "printf": "^0.2",
+    "tslint": "^3.10",
     "typescript": "^1.7",
     "typings": "^1.0"
   },
