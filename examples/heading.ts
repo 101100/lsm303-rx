@@ -16,7 +16,7 @@
 import * as i2cBus from "i2c-bus";
 import * as debug from "debug";
 
-import { Lsm303Driver, Vector } from "../";
+import { Lsm303Driver } from "../index";
 
 // uncomment for debugging information
 //debug.enable('lsm303');
@@ -27,8 +27,10 @@ const lsm303 = new Lsm303Driver({
     i2c: i2cBus.openSync(1),
     // set these based on the output from the
     // calibration program
-    magMin: { x:-384, y:-803, z:-586 },
-    magMax: { x:815, y:336, z:466 }
+    magMin: { x: -384, y: -803, z: -586 },
+    magMax: { x: 815, y: 336, z: 466 }
+    // uncomment for debugging information
+    // debug: true
 });
 
 

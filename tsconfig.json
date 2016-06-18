@@ -4,9 +4,10 @@
         "module": "CommonJS",
         "target": "es5",
         "noImplicitAny": true,
-        "outDir": "."
+        "outDir": "dist"
     },
     "exclude": [
+        "dist",
         "node_modules"
     ]
 }

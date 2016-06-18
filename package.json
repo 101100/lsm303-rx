@@ -12,7 +12,8 @@
       "url": "https://github.com/101100/lsm303-rx/blob/master/LICENSE"
     }
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "keywords": [
     "lsm303",
     "lsm303dlhc",
@@ -36,9 +37,6 @@
   },
   "engines": {
     "node": ">= 0.10.0"
-  },
-  "typescript": {
-    "definition": "index.d.ts"
   },
   "devDependencies": {
     "i2c-bus": "^1.0",

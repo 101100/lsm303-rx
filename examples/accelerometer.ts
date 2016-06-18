@@ -17,7 +17,7 @@ import * as i2cBus from "i2c-bus";
 import * as debug from "debug";
 import printf from "printf";
 
-import { Lsm303Driver, Vector } from "../";
+import { Lsm303Driver, Vector } from "../index";
 
 // uncomment for debugging information
 //debug.enable('lsm303');
