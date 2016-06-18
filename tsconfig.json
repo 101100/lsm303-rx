@@ -1,13 +1,19 @@
 {
-    "compilerOptions": {
-        "declaration": true,
-        "module": "CommonJS",
-        "target": "es5",
-        "noImplicitAny": true,
-        "outDir": "dist"
-    },
-    "exclude": [
-        "dist",
-        "node_modules"
-    ]
+  "compilerOptions": {
+    "declaration": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "target": "es5",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "outDir": "dist",
+    "removeComments": false,
+    "sourceMap": false
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+    "typings/globals",
+    "typings/modules"
+  ]
 }
