@@ -6,13 +6,9 @@
     "name": "Jason Heard",
     "email": "jasonpheard@gmail.com"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/101100/lsm303-rx/blob/master/LICENSE"
-    }
-  ],
-  "main": "index.js",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "keywords": [
     "lsm303",
     "lsm303dlhc",
@@ -32,18 +28,19 @@
     "url": "https://github.com/101100/lsm303-rx/issues"
   },
   "scripts": {
-    "prepublish": "tsc"
+    "build": "npm run lint && tsc",
+    "lint": "tslint index.ts src/*.ts examples/*.ts",
+    "prepublish": "typings install && npm run build"
   },
   "engines": {
     "node": ">= 0.10.0"
   },
-  "typescript": {
-    "definition": "index.d.ts"
-  },
   "devDependencies": {
     "i2c-bus": "^1.0",
     "printf": "^0.2",
-    "typescript": "^1.7"
+    "tslint": "^3.10",
+    "typescript": "^1.7",
+    "typings": "^1.0"
   },
   "dependencies": {
     "debug": "^2.2",

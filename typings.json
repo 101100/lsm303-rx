@@ -1,0 +1,17 @@
+{
+  "name": "pca9685",
+  "version": false,
+  "dependencies": {
+    "debug": "registry:npm/debug#2.0.0+20160511151334"
+  },
+  "devDependencies": {
+    "i2c-bus": "registry:npm/i2c-bus#1.0.0+20160516171505"
+  },
+  "globalDependencies": {
+    "node": "registry:env/node#4.0.0+20160622202520",
+    "rx": "registry:dt/rx#0.0.0+20160317120654",
+    "rx-lite": "registry:dt/rx-lite#0.0.0+20160628114230",
+    "rx.binding-lite": "registry:dt/rx.binding-lite#0.0.0+20160316171810",
+    "rx.time-lite": "registry:dt/rx.time-lite#0.0.0+20160316171810"
+  }
+}

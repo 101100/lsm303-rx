@@ -1,6 +1,3 @@
-/*jslint node:true */
-/// <reference path = "../typings/tsd.d.ts" />
-
 /*
  * examples/calibrate.ts
  * https://github.com/101100/lsm303-rx
@@ -13,30 +10,27 @@
  * Licensed under the MIT license.
  */
 
-"use strict";
-
 import * as i2cBus from "i2c-bus";
-import * as debug from "debug";
 import printf from "printf";
 
 import { Lsm303Driver, Vector } from "../";
 
-// uncomment for debugging information
-//debug.enable('lsm303');
 
 const lsm303 = new Lsm303Driver({
     // looking at the source code, the synchronous and
     // asynchronous open functions are identical
     i2c: i2cBus.openSync(1),
     magOffset: { x: 0, y: 0, z: 0 }
+    // uncomment for debugging information
+    // debug: true
 });
 
 
-var runningMin = { x: 32767, y: 32767, z: 32767 };
-var runningMax = { x: -32768, y: -32768, z: -32768 };
+let runningMin = { x: 32767, y: 32767, z: 32767 };
+let runningMax = { x: -32768, y: -32768, z: -32768 };
 
 
-console.log('Spin around the compass to calibrate (CTRL-C to stop)');
+console.log("Spin around the compass to calibrate (CTRL-C to stop)");
 lsm303.streamMagnometer(100, true)
     .subscribe(
         function (next: Vector): void {
@@ -49,14 +43,14 @@ lsm303.streamMagnometer(100, true)
             runningMax.z = Math.max(runningMax.z, next.z);
 
             console.log(printf(
-                'Min: x: % 6d, y: % 6d, z: % 6d    Max: x: % 6d, y: % 6d, z: % 6d',
+                "Min: x: % 6d, y: % 6d, z: % 6d    Max: x: % 6d, y: % 6d, z: % 6d",
                 runningMin.x, runningMin.y, runningMin.z,
                 runningMax.x, runningMax.y, runningMax.z));
         },
         function (err: any): void {
-            console.log('Error: ' + err);
+            console.log("Error: " + err);
         },
         function (): void {
-            console.log('Completed');
+            console.log("Completed");
         }
     );
