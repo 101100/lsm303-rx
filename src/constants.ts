@@ -1,5 +1,3 @@
-/*jslint node:true*/
-
 /*
  * src/constants.ts
  * https://github.com/101100/lsm303-rx
@@ -9,8 +7,6 @@
  * Copyright (c) 2015 Jason Heard
  * Licensed under the MIT license.
  */
-
-"use strict";
 
 export default {
     MAG_ADDRESS: 0x1E, // 0011110

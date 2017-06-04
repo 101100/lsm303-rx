@@ -1,6 +1,3 @@
-/*jslint node:true */
-/// <reference path = "../typings/tsd.d.ts" />
-
 /*
  * examples/magnometer.ts
  * https://github.com/101100/lsm303-rx
@@ -10,8 +7,6 @@
  * Copyright (c) 2015 Jason Heard
  * Licensed under the MIT license.
  */
-
-"use strict";
 
 import * as i2cBus from "i2c-bus";
 import * as debug from "debug";
