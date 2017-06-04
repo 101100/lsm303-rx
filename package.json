@@ -36,16 +36,16 @@
     "node": ">= 0.10.0"
   },
   "devDependencies": {
-    "i2c-bus": "^1.0",
+    "i2c-bus": "^1.2",
     "printf": "^0.2",
-    "tslint": "^3.10",
-    "typescript": "^1.7"
+    "tslint": "^3.15",
+    "typescript": "^2.3"
   },
   "dependencies": {
     "@types/debug": "^0.0.29",
     "@types/i2c-bus": "^1.0.9",
-    "debug": "^2.2",
-    "rx": "^4.0"
+    "debug": "^2.6",
+    "rxjs": "^5.4"
   },
   "directories": {
     "example": "examples"

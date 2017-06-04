@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "module": "CommonJS",
+    "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
     "outDir": "dist",
     "removeComments": false,
-    "sourceMap": false
+    "sourceMap": false,
+    "strict": true
   },
   "exclude": [
     "dist",
