@@ -9,6 +9,7 @@
  */
 
 import * as debugFactory from "debug";
+import { polyfill as promisePolyfill } from "es6-promise";
 import { I2cBus } from "i2c-bus";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/concat";
@@ -282,6 +283,9 @@ export class Lsm303Driver {
             debugFactory.enable("lsm303");
         }
         this.debug = debugFactory("lsm303");
+
+        // polyfill 'Promise' in case we are running on Node.js before v0.12
+        promisePolyfill();
 
         const i2cObject = options.i2c,
             writeByte = function (device: number, address: number, byte: number): Observable<any> {

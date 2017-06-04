@@ -6,6 +6,10 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.29.tgz#a1e514adfbd92f03a224ba54d693111dbf1f3754"
 
+"@types/es6-promise@^0.0.32":
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/@types/es6-promise/-/es6-promise-0.0.32.tgz#3bcf44fb1e429f3df76188c8c6d874463ba371fd"
+
 "@types/i2c-bus@^1.0.9":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@types/i2c-bus/-/i2c-bus-1.0.9.tgz#14a6ad77bef67d9a09c5873c90e709ca1dca8964"
@@ -48,6 +52,10 @@ debug@^2.6:
 diff@^2.2.1:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/diff/-/diff-2.2.3.tgz#60eafd0d28ee906e4e8ff0a52c1229521033bf99"
+
+es6-promise@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.1.0.tgz#dda03ca8f9f89bc597e689842929de7ba8cebdf0"
 
 findup-sync@~0.3.0:
   version "0.3.0"
