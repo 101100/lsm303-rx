@@ -10,6 +10,7 @@
 
 import * as i2cBus from "i2c-bus";
 import printf from "printf";
+import "rxjs/add/operator/take";
 
 import { Lsm303Driver, Vector } from "../index";
 
