@@ -29,25 +29,24 @@
   },
   "scripts": {
     "build": "npm run lint && tsc",
-    "lint": "tslint index.ts src/*.ts examples/*.ts",
+    "lint": "tslint --project tsconfig.json index.ts src/*.ts examples/*.ts",
     "prepublish": "npm run build"
   },
   "engines": {
     "node": ">= 0.10.0"
   },
   "devDependencies": {
-    "i2c-bus": "^1.2",
-    "printf": "^0.2",
-    "tslint": "^3.15",
-    "typescript": "^2.3"
+    "i2c-bus": "^3.2",
+    "printf": "^0.3",
+    "tslint": "^5.10",
+    "typescript": "^2.9"
   },
   "dependencies": {
-    "@types/debug": "^0.0.29",
-    "@types/es6-promise": "^0.0.32",
-    "@types/i2c-bus": "^1.0.9",
-    "debug": "^2.6",
-    "es6-promise": "^4.1.0",
-    "rxjs": "^5.4"
+    "@types/debug": "^0.0.30",
+    "@types/i2c-bus": "^1.0.18",
+    "debug": "^3.1",
+    "es6-promise": "^4.1",
+    "rxjs": "^6.2"
   },
   "directories": {
     "example": "examples"

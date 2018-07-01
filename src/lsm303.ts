@@ -11,21 +11,14 @@
 import * as debugFactory from "debug";
 import { polyfill as promisePolyfill } from "es6-promise";
 import { I2cBus } from "i2c-bus";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/concat";
-import "rxjs/add/observable/timer";
-import "rxjs/add/observable/zip";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/publish";
-import { noop } from "rxjs/util/noop";
+import { Observable, concat as concatObservable, timer as timerObservable, zip as zipObservable } from "rxjs";
+import { mergeMap, map, publish, tap } from "rxjs/operators";
 
 import constants from "./constants";
 
 
 type BytesReader = (address: number, command: number, length: number) => Observable<Buffer>;
-type ByteWriter = (address: number, command: number, length: number) => Observable<any>;
+type ByteWriter = (address: number, command: number, length: number) => Observable<never>;
 
 
 export interface Vector {
@@ -46,7 +39,7 @@ export interface Vector {
 // the registers it writes to.
 function initializeToDefaults(debug: debugFactory.IDebugger, writeByte: ByteWriter): Observable<never> {
     debug("Starting initialization");
-    return Observable.concat<never>(
+    return concatObservable(
         // Accelerometer
 
         // 0x08 = 0b00001000
@@ -70,7 +63,9 @@ function initializeToDefaults(debug: debugFactory.IDebugger, writeByte: ByteWrit
         // 0x00 = 0b00000000
         // MD = 00 (continuous-conversion mode)
         writeByte(constants.MAG_ADDRESS, constants.MR_REG_M, 0x00)
-    ).do(noop, undefined, () => { debug("Initialization complete"); });
+    ).pipe(
+        tap(undefined, undefined, () => { debug("Initialization complete"); })
+    );
 }
 
 
@@ -117,23 +112,27 @@ const bufferToVectorMag = bufferToVector(
 
 function readAccelerometer(debug: debugFactory.IDebugger, readBytes: BytesReader): Observable<Vector> {
     return readBytes(constants.ACC_ADDRESS, constants.ACC_OUT.START | 0x80, 6)
-        .map(bufferToVectorAcc)
-        .do(x => {
-            if (debug.enabled) {
-                debug("Read accelerometer: " + JSON.stringify(x));
-            }
-        });
+        .pipe(
+            map(bufferToVectorAcc),
+            tap(x => {
+                if (debug.enabled) {
+                    debug("Read accelerometer: " + JSON.stringify(x));
+                }
+            })
+        );
 }
 
 
 function readMagnometer(debug: debugFactory.IDebugger, readBytes: BytesReader): Observable<Vector> {
     return readBytes(constants.MAG_ADDRESS, constants.MAG_OUT.START, 6)
-        .map(bufferToVectorMag)
-        .do(x => {
-            if (debug.enabled) {
-                debug("Read magnometer: " + JSON.stringify(x));
-            }
-        });
+        .pipe(
+            map(bufferToVectorMag),
+            tap(x => {
+                if (debug.enabled) {
+                    debug("Read magnometer: " + JSON.stringify(x));
+                }
+            })
+        );
 }
 
 
@@ -180,7 +179,7 @@ function normalizeVector(a: Vector): Vector {
 
 
 function createIntervalStream(interval: number): Observable<number> {
-    return Observable.timer(0, interval);
+    return timerObservable(0, interval);
 }
 
 
@@ -212,11 +211,13 @@ function computeHeading(debug: debugFactory.IDebugger, accVector: Vector, magVec
 
 function streamHeadings(debug: debugFactory.IDebugger, readBytes: BytesReader, interval: number, magOffset: Vector, forwardVector: Vector): Observable<number> {
     return createIntervalStream(interval)
-        .flatMap(() => {
-            return Observable.zip(readAccelerometer(debug, readBytes), readMagnometer(debug, readBytes), (accVector: Vector, magVector: Vector) => {
-                return computeHeading(debug, accVector, subtractVector(magVector, magOffset), forwardVector);
-            });
-        });
+        .pipe(
+            mergeMap(() => {
+                return zipObservable(readAccelerometer(debug, readBytes), readMagnometer(debug, readBytes), (accVector, magVector) => {
+                    return computeHeading(debug, accVector, subtractVector(magVector, magOffset), forwardVector);
+                });
+            })
+        );
 }
 
 
@@ -235,10 +236,12 @@ function accelerometerToGravity(a: Vector): Vector {
 
 function streamAccelerometer(debug: debugFactory.IDebugger, readBytes: BytesReader, interval: number): Observable<Vector> {
     return createIntervalStream(interval)
-        .flatMap(() => {
-            return readAccelerometer(debug, readBytes);
-        })
-        .map(accelerometerToGravity);
+        .pipe(
+            mergeMap(() => {
+                return readAccelerometer(debug, readBytes);
+            }),
+            map(accelerometerToGravity)
+        );
 }
 
 
@@ -255,13 +258,17 @@ function magnometerToGauss(a: Vector): Vector {
 
 function streamMagnometer(debug: debugFactory.IDebugger, readBytes: BytesReader, interval: number, rawData: boolean): Observable<Vector> {
     let magnometerStream = createIntervalStream(interval)
-        .flatMap(() => {
-            return readMagnometer(debug, readBytes);
-        });
+        .pipe(
+            mergeMap(() => {
+                return readMagnometer(debug, readBytes);
+            })
+        );
 
     if (!rawData) {
         magnometerStream = magnometerStream
-            .map(magnometerToGauss);
+            .pipe(
+                map(magnometerToGauss)
+            );
     }
 
     return magnometerStream;
@@ -287,9 +294,10 @@ export class Lsm303Driver {
         // polyfill 'Promise' in case we are running on Node.js before v0.12
         promisePolyfill();
 
-        const i2cObject = options.i2c,
-            writeByte = function (device: number, address: number, byte: number): Observable<any> {
-                return new Observable<Vector>(subscriber => {
+        const i2cObject = options.i2c;
+
+        const writeByte = function (device: number, address: number, byte: number): Observable<never> {
+                return new Observable<never>(subscriber => {
                     i2cObject.writeByte(device, address, byte, err => {
                         if (err) {
                             subscriber.error(err);
@@ -327,32 +335,32 @@ export class Lsm303Driver {
         };
 
         // the initialization stream is published so it begins immediately
-        this.initializationStream = initializeToDefaults(this.debug, writeByte).publish().refCount();
+        this.initializationStream = publish<never>()(initializeToDefaults(this.debug, writeByte)).refCount();
     }
 
 
     streamHeadings(interval: number = 100, forwardVector: Vector = { x: 0, y: 1, z: 0 }): Observable<number> {
-        return Observable.concat<number>(
+        return concatObservable(
             this.initializationStream,
             streamHeadings(this.debug, this.readBytes, interval, this.magOffset, forwardVector)
         );
-    };
+    }
 
 
     streamAccelerometer(interval: number = 100): Observable<Vector> {
-        return Observable.concat<Vector>(
+        return concatObservable(
             this.initializationStream,
             streamAccelerometer(this.debug, this.readBytes, interval)
         );
-    };
+    }
 
 
     streamMagnometer(interval: number = 100, rawData: boolean = false): Observable<Vector> {
-        return Observable.concat<Vector>(
+        return concatObservable(
             this.initializationStream,
             streamMagnometer(this.debug, this.readBytes, interval, rawData)
         );
-    };
+    }
 
     private debug: debugFactory.IDebugger;
     private initializationStream: Observable<never>;

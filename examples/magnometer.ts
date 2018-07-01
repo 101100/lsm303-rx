@@ -10,7 +10,7 @@
 
 import * as i2cBus from "i2c-bus";
 import printf from "printf";
-import "rxjs/add/operator/take";
+import { take } from "rxjs/operators";
 
 import { Lsm303Driver, Vector } from "../index";
 
@@ -26,7 +26,9 @@ const lsm303 = new Lsm303Driver({
 
 console.log("Reading 50 magnometer values...");
 lsm303.streamMagnometer()
-    .take(50)
+    .pipe(
+        take(50)
+    )
     .subscribe(
         function (next: Vector): void {
             console.log(printf("x: % 8f, y: % 8f, z: % 8f", next.x, next.y, next.z));

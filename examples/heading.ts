@@ -9,7 +9,7 @@
  */
 
 import * as i2cBus from "i2c-bus";
-import "rxjs/add/operator/take";
+import { take } from "rxjs/operators";
 
 import { Lsm303Driver } from "../index";
 
@@ -42,7 +42,9 @@ const headings: string[] = [
 
 console.log("Reading heading...");
 lsm303.streamHeadings()
-    .take(1)
+    .pipe(
+        take(50)
+    )
     .subscribe(
         function (heading: number): void {
             // split it into 8 quadrants (North is 0)
