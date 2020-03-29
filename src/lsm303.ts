@@ -10,7 +10,7 @@
 
 import * as debugFactory from "debug";
 import { polyfill as promisePolyfill } from "es6-promise";
-import { I2cBus } from "i2c-bus";
+import { I2CBus } from "i2c-bus";
 import { Observable, concat as concatObservable, timer as timerObservable, zip as zipObservable } from "rxjs";
 import { mergeMap, map, publish, tap } from "rxjs/operators";
 
@@ -276,7 +276,7 @@ function streamMagnometer(debug: debugFactory.IDebugger, readBytes: BytesReader,
 
 
 export interface Lsm303Options {
-    i2c: I2cBus;
+    i2c: I2CBus;
     magOffset?: Vector;
     magMin?: Vector;
     magMax?: Vector;
