@@ -30,7 +30,8 @@
   "scripts": {
     "build": "npm run lint && tsc",
     "lint": "tslint --project tsconfig.json index.ts src/*.ts examples/*.ts",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "test": "npm run build"
   },
   "engines": {
     "node": ">= 8.0.0"
