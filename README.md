@@ -14,7 +14,7 @@ and it is available for purchase at
 
 ```js
 var i2c = require("i2c-bus");
-var Lsm303Driver = require("lsm303-rx");
+var Lsm303Driver = require("lsm303-rx").Lsm303Driver;
 
 var options = {
     // looking at the source code, the synchronous and
