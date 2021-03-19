@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "i2c-bus": "^5.0",
-    "printf": "^0.5.3",
+    "printf": "^0.6.1",
     "tslint": "^6.1.0",
     "typescript": "^3.8.3"
   },
